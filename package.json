@@ -1,0 +1,15 @@
+{
+  "name": "selva-house",
+  "version": "1.0.0",
+  "description": "Selva House — pre-construction residences, Fort Lauderdale",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i src/input.css -o assets/css/main.css --minify",
+    "watch": "tailwindcss -i src/input.css -o assets/css/main.css --watch",
+    "serve": "npx serve . -l 5178"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

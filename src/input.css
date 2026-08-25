@@ -1,0 +1,404 @@
+@import "tailwindcss";
+
+@theme {
+  /* Selva House brand palette — warm neutrals + deep forest green, no black backgrounds */
+  --color-linen-50: #fbf6ee;
+  --color-linen-100: #f6f1e7;
+  --color-sand-100: #eae6da;
+  --color-sand-200: #ddd7c5;
+  --color-stone-300: #c7c8cb;
+  --color-stone-400: #a0a1a5;
+  --color-stone-600: #6f7075;
+  --color-moss-500: #838468;
+  --color-moss-600: #62634f;
+  --color-moss-700: #52533f;
+  --color-sage-300: #c3cdbf;
+  --color-sage-400: #a4b29f;
+  --color-sage-500: #8a9b83;
+  --color-sage-600: #5f6d5c;
+  --color-forest-800: #37452f;
+  --color-forest-900: #242e20;
+  --color-forest-950: #171f14;
+
+  --font-display: "Helvetica Neue", "Portrait", Helvetica, Arial, sans-serif;
+  --font-body: "Universal Sans Text", "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --shadow-soft: 0 1px 2px rgba(23, 31, 20, 0.06), 0 10px 28px -10px rgba(23, 31, 20, 0.18);
+  --shadow-lift: 0 6px 14px rgba(23, 31, 20, 0.10), 0 34px 64px -20px rgba(23, 31, 20, 0.34);
+  --ease-hand: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+  body {
+    font-family: var(--font-body);
+    color: var(--color-forest-900);
+    background-color: #ffffff;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+  }
+  ::selection {
+    background-color: var(--color-sage-400);
+    color: var(--color-forest-950);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-forest-900);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@utility btn {
+  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-all duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2;
+  min-height: 44px;
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+  .section-pad {
+    @apply py-16 sm:py-24 lg:py-32;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-moss-600;
+  }
+  .eyebrow-light {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-sage-300;
+  }
+
+  .btn-primary {
+    @apply btn bg-forest-900 text-linen-50 shadow-soft hover:bg-forest-800 hover:shadow-lift active:bg-forest-950;
+  }
+  .btn-accent {
+    @apply btn bg-sage-400 text-forest-950 shadow-soft hover:bg-sage-500 hover:shadow-lift active:bg-sage-600;
+  }
+  .btn-outline {
+    @apply btn border-2 border-forest-900/15 bg-transparent text-forest-900 hover:border-forest-900 hover:bg-forest-900/[0.04];
+  }
+  .btn-ghost-light {
+    @apply btn border-2 border-white/35 text-white hover:border-white hover:bg-white/10;
+  }
+  .btn-sm {
+    @apply px-4 py-2.5 text-xs;
+    min-height: 38px;
+  }
+  .btn {
+    transition-timing-function: var(--ease-hand);
+  }
+  .btn:active {
+    transform: scale(0.965);
+  }
+  .btn svg {
+    transition: transform 0.4s var(--ease-hand);
+  }
+  .btn:hover svg {
+    transform: translateX(3px);
+  }
+
+  .card {
+    @apply rounded-2xl border border-forest-900/[0.07] bg-white shadow-soft;
+    transition: transform 0.5s var(--ease-hand), box-shadow 0.5s var(--ease-hand), border-color 0.5s var(--ease-hand);
+  }
+  .card:hover {
+    transform: translateY(-5px) rotate(-0.3deg);
+    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in srgb, var(--color-forest-900) 14%, transparent);
+  }
+
+  .placeholder-tag {
+    @apply ml-2 inline-block rounded-full border border-moss-600/25 bg-sand-100 px-2 py-0.5 align-middle text-[9px] font-bold uppercase tracking-[0.14em] text-moss-600;
+  }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    @apply fixed inset-x-0 top-0 z-40 transition-all duration-300;
+    background: transparent;
+  }
+  .site-header.is-scrolled {
+    background: color-mix(in srgb, var(--color-linen-100) 92%, transparent);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgba(36, 46, 32, 0.08);
+  }
+  .site-logo-word { color: var(--color-forest-900); }
+  .site-logo-sub { color: var(--color-moss-600); }
+  .nav-link-dark {
+    @apply relative py-2 text-sm font-semibold text-forest-900/80 transition-colors hover:text-forest-900;
+  }
+  .nav-link-dark.is-active { color: var(--color-forest-900); }
+  .nav-indicator {
+    @apply absolute -bottom-0.5 h-[2px] rounded-full bg-sage-500 opacity-0 transition-all duration-300;
+  }
+  .header-action-light {
+    color: var(--color-forest-900);
+  }
+  .header-action-light:hover { color: var(--color-sage-600); }
+  .header-burger-light { color: var(--color-forest-900); }
+  .hamburger-line {
+    @apply block h-[1.5px] w-5 rounded-full bg-forest-900 transition-all duration-300;
+  }
+  .header-burger-light.is-open .hamburger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .header-burger-light.is-open .hamburger-line:nth-child(2) { opacity: 0; }
+  .header-burger-light.is-open .hamburger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* When header rides over a dark hero, before scroll: lighten text */
+  .site-header:not(.is-scrolled) .header-on-dark .site-logo-word,
+  .site-header:not(.is-scrolled) .header-on-dark .site-logo-sub,
+  .site-header:not(.is-scrolled) .header-on-dark .nav-link-dark,
+  .site-header:not(.is-scrolled) .header-on-dark .header-action-light,
+  .site-header:not(.is-scrolled) .header-on-dark .header-burger-light,
+  .site-header:not(.is-scrolled) .header-on-dark .hamburger-line {
+    color: #ffffff;
+  }
+  .site-header:not(.is-scrolled) .header-on-dark .hamburger-line { background-color: #ffffff; }
+  .site-header:not(.is-scrolled) .header-on-dark .nav-link-dark.is-active { color: var(--color-sage-300); }
+
+  /* ---------- Hero dark section ---------- */
+  .hero-dark {
+    background-color: var(--color-forest-950);
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* ---------- Portfolio / gallery tile ---------- */
+  .portfolio-tile {
+    @apply relative block overflow-hidden rounded-2xl;
+  }
+  .portfolio-tile__bg {
+    @apply h-full w-full object-cover transition-transform duration-700 ease-out;
+  }
+  .group:hover .portfolio-tile__bg { transform: scale(1.06); }
+  .portfolio-tile__caption {
+    @apply absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-forest-950/85 via-forest-950/20 to-transparent p-5 pt-14;
+  }
+
+  /* ---------- Float card ---------- */
+  .float-card {
+    @apply absolute z-10 hidden items-center gap-3 rounded-2xl bg-white p-4 shadow-lift sm:flex;
+  }
+
+  /* ---------- Pill badge ---------- */
+  .pill-badge-light {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm;
+  }
+  .pill-badge-light .dot {
+    @apply h-1.5 w-1.5 rounded-full bg-sage-400;
+  }
+  .pill-badge-dark {
+    @apply inline-flex items-center gap-2 rounded-full border border-forest-900/15 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-forest-900 shadow-soft;
+  }
+  .pill-badge-dark .dot {
+    @apply h-1.5 w-1.5 rounded-full bg-sage-500;
+  }
+
+  /* ---------- Line-mask split-text reveal ---------- */
+  .line-mask { display: inline-block; overflow: hidden; vertical-align: top; }
+  .line-mask__inner { display: inline-block; transform: translateY(110%); }
+
+  /* ---------- Photo banner (hero + subpage intros) ---------- */
+  .photo-banner {
+    @apply relative flex w-full items-end overflow-hidden bg-forest-950;
+  }
+  .photo-banner__img {
+    @apply absolute inset-0 z-0 h-full w-full object-cover;
+  }
+  .photo-banner__scrim {
+    @apply absolute inset-x-0 bottom-0 z-[1] h-2/3;
+    background: linear-gradient(to top, color-mix(in srgb, var(--color-forest-950) 92%, transparent) 0%, color-mix(in srgb, var(--color-forest-950) 35%, transparent) 55%, transparent 100%);
+  }
+  .photo-banner__top-scrim {
+    @apply absolute inset-x-0 top-0 z-[1] h-28;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent);
+  }
+
+  /* ---------- Hero stat row ---------- */
+  .hero-stats {
+    @apply grid grid-cols-2 items-start gap-x-6 gap-y-5 sm:grid-cols-4 lg:flex lg:gap-x-8;
+  }
+  .hero-stat {
+    @apply flex flex-col gap-1 lg:border-l lg:border-white/25 lg:pl-6 lg:first:border-l-0 lg:first:pl-0;
+  }
+  .hero-stat-value {
+    @apply font-display block whitespace-nowrap text-xl font-semibold text-white sm:text-2xl;
+  }
+  .hero-stat-label {
+    @apply mt-0.5 block whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60;
+  }
+
+  /* ---------- Logo marquee (partner/consultant logos) ---------- */
+  .logo-marquee {
+    @apply relative w-full overflow-hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+  .logo-marquee__track {
+    display: flex;
+    width: max-content;
+    align-items: stretch;
+    gap: 1.25rem;
+    animation: logo-marquee-scroll 46s linear infinite;
+  }
+  .logo-marquee:hover .logo-marquee__track,
+  .logo-marquee:focus-within .logo-marquee__track {
+    animation-play-state: paused;
+  }
+  @keyframes logo-marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-marquee__track {
+      animation: none;
+    }
+  }
+  .logo-card {
+    @apply flex w-[172px] shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-forest-900/[0.08] bg-white px-6 py-5 text-center;
+    transition: transform 0.4s var(--ease-hand), box-shadow 0.4s var(--ease-hand), border-color 0.4s var(--ease-hand);
+  }
+  .logo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in srgb, var(--color-forest-900) 14%, transparent);
+  }
+  .logo-card__img {
+    height: 34px;
+    width: auto;
+    max-width: 118px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.75;
+    transition: filter 0.4s var(--ease-hand), opacity 0.4s var(--ease-hand);
+  }
+  .logo-card:hover .logo-card__img {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+  .logo-card__role {
+    @apply text-[10px] font-semibold uppercase tracking-[0.14em] text-moss-600;
+  }
+
+  /* ---------- Download modal ---------- */
+  .download-modal-backdrop {
+    @apply fixed inset-0 z-[90] flex items-center justify-center bg-forest-950/70 px-5 py-10 opacity-0 pointer-events-none backdrop-blur-sm transition-opacity duration-300;
+  }
+  .download-modal-backdrop.is-open {
+    @apply opacity-100 pointer-events-auto;
+  }
+  .download-modal {
+    @apply w-full max-w-md translate-y-3 rounded-3xl bg-linen-50 p-8 shadow-lift transition-all duration-300;
+  }
+  .download-modal-backdrop.is-open .download-modal {
+    @apply translate-y-0;
+  }
+  .form-input {
+    @apply w-full rounded-xl border-2 border-forest-900/10 bg-white px-4 py-3 text-sm text-forest-900 outline-none placeholder:text-stone-400 transition-colors focus-visible:border-sage-500;
+  }
+  .form-label {
+    @apply mb-1.5 block text-sm font-semibold text-forest-900;
+  }
+
+  /* ---------- Spec table ---------- */
+  .spec-row {
+    @apply flex items-center justify-between gap-4 border-b border-forest-900/[0.08] py-3.5 text-sm last:border-0;
+    transition: padding-left 0.35s var(--ease-hand);
+  }
+  .spec-row:hover {
+    padding-left: 0.4rem;
+  }
+
+  /* ---------- Team credit strip ---------- */
+  .credit-chip {
+    @apply rounded-full border border-forest-900/10 bg-white px-4 py-2 text-xs font-semibold text-moss-700;
+    transition: transform 0.35s var(--ease-hand), border-color 0.35s var(--ease-hand), color 0.35s var(--ease-hand);
+  }
+  .credit-chip:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-sage-500);
+    color: var(--color-forest-900);
+  }
+
+  /* ---------- Footer / text links ---------- */
+  footer a:not(.btn-primary):not(.btn-accent):not(.btn-outline):not(.btn-ghost-light) {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.35s var(--ease-hand);
+  }
+  footer a:hover {
+    background-size: 100% 1px;
+  }
+
+  /* ---------- Custom cursor (fine pointer, motion-safe only) ---------- */
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    pointer-events: none;
+    border-radius: 9999px;
+    will-change: transform;
+  }
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: var(--color-sage-500);
+    transition: opacity 0.2s ease, transform 0.2s var(--ease-hand);
+  }
+  .cursor-ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 1px solid color-mix(in srgb, var(--color-forest-900) 45%, transparent);
+    transition: opacity 0.2s ease, width 0.3s var(--ease-hand), height 0.3s var(--ease-hand), margin 0.3s var(--ease-hand), border-color 0.3s var(--ease-hand), background-color 0.3s var(--ease-hand);
+  }
+  html.has-custom-cursor,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button {
+    cursor: none;
+  }
+  .cursor-ring.is-active {
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    background: color-mix(in srgb, var(--color-sage-400) 22%, transparent);
+    border-color: transparent;
+  }
+  .cursor-dot.is-active {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  /* ---------- Floor plan schematic ---------- */
+  .floorplan-room {
+    fill: var(--color-linen-50);
+    stroke: var(--color-forest-900);
+    stroke-width: 1.4;
+  }
+  .floorplan-room--wet {
+    fill: var(--color-sage-300);
+    fill-opacity: 0.35;
+  }
+  .floorplan-label {
+    font-family: var(--font-body);
+    fill: var(--color-forest-900);
+  }
+}
